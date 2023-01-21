@@ -1,9 +1,9 @@
+import 'package:davi/davi.dart';
 import 'package:demoflu/demoflu.dart';
-import 'package:easy_table/easy_table.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class CustomCellExample extends Example {
+class CustomCellWidgetExample extends Example {
   @override
   Widget buildMainWidget(BuildContext context) => const MainWidget();
 }
@@ -23,7 +23,7 @@ class MainWidget extends StatefulWidget {
 }
 
 class MainWidgetState extends State<MainWidget> {
-  EasyTableModel<Person>? _model;
+  DaviModel<Person>? _model;
 
   @override
   void initState() {
@@ -36,18 +36,18 @@ class MainWidgetState extends State<MainWidget> {
       Person('Cadu', 5),
       Person('Delmar', 2)
     ];
-    _model = EasyTableModel<Person>(rows: rows, columns: [
-      EasyTableColumn(name: 'Name', stringValue: (row) => row.name),
-      EasyTableColumn(
+    _model = DaviModel<Person>(rows: rows, columns: [
+      DaviColumn(name: 'Name', stringValue: (row) => row.name),
+      DaviColumn(
           name: 'Rate',
           width: 150,
-          cellBuilder: (context, row) => StarsWidget(stars: row.stars))
+          cellBuilder: (context, row) => StarsWidget(stars: row.data.stars))
     ]);
   }
 
   @override
   Widget build(BuildContext context) {
-    return EasyTable<Person>(_model);
+    return Davi<Person>(_model);
   }
 }
 
@@ -59,7 +59,9 @@ class StarsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> children = List.generate(
-        stars, (index) => const Icon(Icons.star, color: Colors.orange));
+        stars,
+        (index) =>
+            const Flexible(child: Icon(Icons.star, color: Colors.orange)));
     return Row(children: children);
   }
 }
